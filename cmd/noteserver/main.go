@@ -33,26 +33,25 @@ func main() {
 	flag.Parse()
 	jwtSecret := []byte(jwtSecretString)
 
-	portInt, err := strconv.Atoi(port)
+	err := l.InitLogger()
 	if err != nil {
-		log.Fatal("Incorrect port number:", err)
-	}
-	if !isValidPort(portInt) {
-		log.Fatal("Incorrect port number")
+		log.Fatal("Failed to initialize the logger", err)
 	}
 
-	if !checkPostgreSQL(sqlServer) {
-		log.Fatal("Incorrect SQL-server parameters")
-	}
-	err = l.InitLogger()
+	portInt, err := strconv.Atoi(port)
 	if err != nil {
-		log.Fatal("Failed to initialize", err)
+		l.Logger.Fatal("Incorrect port number:", err)
+	}
+	if !isValidPort(portInt) {
+		l.Logger.Fatal("Incorrect port number")
+	}
+	if !checkPostgreSQL(sqlServer) {
+		l.Logger.Fatal("Incorrect SQL-server parameters")
 	}
 	connConfig, err := pgx.ParseConfig(sqlServer)
 	if err != nil {
 		l.Logger.Fatal("Failed to parse database URL:", err)
 	}
-
 	db, err := pgx.ConnectConfig(context.Background(), connConfig)
 	if err != nil {
 		l.Logger.Fatal("Failed to connect to database:", err)
@@ -68,15 +67,16 @@ func main() {
 		api.HandleRegister(w, r, db)
 	}).Methods("POST")
 
+	router.HandleFunc("/v1/deleteuser", api.AuthenticateMiddleware(func(w http.ResponseWriter, r *http.Request) {
+		api.HandleDeleteUser(w, r, db, jwtSecret)
+	}, jwtSecret)).Methods("DELETE")
+
 	RegisterNoteRoutes(router, db, jwtSecret, apiTimeout)
 
 	router.HandleFunc("/v1/allnotes", api.AuthenticateMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		api.HandleMultipleNotesAction(w, r, db, jwtSecret)
 	}, jwtSecret)).Methods("GET")
 
-	router.HandleFunc("/v1/deleteuser", api.AuthenticateMiddleware(func(w http.ResponseWriter, r *http.Request) {
-		api.HandleDeleteUser(w, r, db, jwtSecret)
-	}, jwtSecret)).Methods("DELETE")
 	port = ":" + port
 	l.Logger.Info("Server started on", port)
 	fmt.Printf("Server started on %v\n", port)
