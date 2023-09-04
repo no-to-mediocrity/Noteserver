@@ -31,7 +31,7 @@ NoteServer uses the following libraries:
         │   ├── handlers.go
         │   └── middlewares.go
         ├── logger
-        │   └── Setup.go
+        │   └── setup.go
         ├── models
         │   ├── note.go
         │   ├── spellcheckdata.go
@@ -129,6 +129,7 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ### --jwt-secret
 
 **Default**: your-secret-key
+
 **Description**: Sets the secret key used for generating and validating JSON Web Tokens (JWTs) for authentication and authorization.
 
 **Example usage:**
@@ -146,6 +147,7 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ```
 ### --timeout
 **Default**: 5
+
 **Description**: Specifies the timeout duration in seconds for Yandex API requests made by the application.
 
 **Example usage:**
@@ -153,7 +155,7 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ./noteserver --timeout 10
 ```
 
-## API Endpoints and functionality
+## API endpoints and functionality
 
 Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-bd18-4410-87b1-195155e51067?access_key=PMAT-01H9EC868GRK3SBDP58Z3782H3) to test the API . 
 
