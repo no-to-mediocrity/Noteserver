@@ -1,6 +1,6 @@
 # NoteServer
 
-**NoteServer** is a simple RESTful API server implemented in Go for managing notes. It provides endpoints for user authentication, note creation, reading, updating, and deletion, as well as handling multiple notes. Powered by PostgreSQL, it ensures secure data storage and retrieval. The server employs JWT for authentication and integrates the [Yandex.Speller API](https://yandex.ru/dev/speller/#spellcheck) for accurate spellchecking, enhancing the overall note-taking experience.
+**NoteServer** is a simple RESTful API server implemented in Go for managing notes. It provides endpoints for user authentication, note creation, reading, updating, and deletion, as well as handling multiple notes. Powered by PostgreSQL, it ensures secure data storage and retrieval. The server employs JWT for authentication and integrates the Yandex.Spelling API for accurate spellchecking, enhancing the overall note-taking experience.
 
 ## Project description
 
@@ -9,6 +9,7 @@ NoteServer uses the following libraries:
 -   [Mux](github.com/gorilla/mux): A powerful URL router and dispatcher for building RESTful web services.
 -   [PGXv4](github.com/jackc/pgx/v4): A PostgreSQL driver for Go applications.
 -   [Logrus](github.com/sirupsen/logrus): A structured logger for Go.
+- [Yandex.Speller](https://yandex.ru/dev/speller/#spellcheck): A spellchecking AI-tool API from Yandex.
 
 ### Project structure
 
@@ -19,6 +20,7 @@ NoteServer uses the following libraries:
 ├── cmd
 │   └── noteserver
 │       └── main.go
+├── deploy.sh
 ├── go.mod
 ├── go.sum
 └── internal
@@ -46,14 +48,20 @@ NoteServer uses the following libraries:
             └── spellcheck.go
 ```
 
-## Getting started
-
-### Setting up the infrastructure
+## Getting started 
 
 **Prerequisites**: 
 
  - Docker 
- - PostgreSQL client (any)
+ - PostgreSQL client (optional)
+
+## Automatic deployment
+
+Just run `./deploy.sh` from the project root. The script keeps important parameters in separate variables for editing purposes.
+
+## Manual deployment
+
+### Setting up the infrastructure
 
 **Setting up PostgreSQL in the Docker**
 Get the PostgreSQL image:
@@ -62,7 +70,7 @@ docker pull postgres
 ```
 Create the container for PostgreSQL server and run it:
 ```
-docker run --name notes -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+docker run --name notes -p 8080:8080 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
 ```
 
 **Setting up the database**
@@ -100,7 +108,6 @@ To build a NoteServer Docker image, run:
 docker build -t notes:1.0 /Users/user/go/src/noteserver
 ```
 Where `/Users/user/go/src/noteserver` is a path to the project
-
 Then retrieve PostgreSQL server address by running:
   ```
   docker inspect notes | grep IPAddress
@@ -129,7 +136,6 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ### --jwt-secret
 
 **Default**: your-secret-key
-
 **Description**: Sets the secret key used for generating and validating JSON Web Tokens (JWTs) for authentication and authorization.
 
 **Example usage:**
@@ -147,7 +153,6 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ```
 ### --timeout
 **Default**: 5
-
 **Description**: Specifies the timeout duration in seconds for Yandex API requests made by the application.
 
 **Example usage:**
@@ -155,25 +160,25 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ./noteserver --timeout 10
 ```
 
-## API endpoints and functionality
+## API Endpoints and functionality
 
 Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-bd18-4410-87b1-195155e51067?access_key=PMAT-01H9EC868GRK3SBDP58Z3782H3) to test the API . 
 
-**Endpoint**: `/v1/register`
+**Endpoint**: `http://localhost:8080/v1/register`
 
 -   **Method**: POST
 -   **Purpose**: Allows users to register with a username and password.
 -   **Request Body**: JSON containing `"username"` and `"password"` fields.
 -  **Response Body**: JSON message.
 
-**Endpoint**: `/v1/login`
+**Endpoint**: `http://localhost:8080/v1/login`
 
 -   **Method**: POST
 -   **Purpose**: Enables user login using username and password.
 -   **Request Body**: JSON containing `"username"` and `"password"` fields.
 -   **Response Body**: JSON with an authentication token.
 
-**Endpoint**: `/v1/deleteuser`
+**Endpoint**: `http://localhost:8080/v1/deleteuser`
 
 -   **Method**: DELETE
 -   **Purpose**: Deletes a user account.
@@ -181,15 +186,7 @@ Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-b
 -   **Response Body**: JSON message.
 
 
-**Endpoint**: `/v1/allnotes`
-
--   **Method**: GET
--   **Purpose**: Retrieves a list of all notes for the authenticated user.
--   **Request Headers**: Requires `"Authorization"` header with the authentication token.
-- **Response Body**: JSON containing `"status"` ,`"message"`, `notes` fields.  
-
-
-**Endpoint**: `/v1/note`
+**Endpoint**: `http://localhost:8080/v1/note`
 
 -   **Method**: POST
 -   **Purpose**: Creates a new note with a title and content.
@@ -197,8 +194,14 @@ Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-b
 -   **Request Body**: JSON containing `"title"` and `"content"` fields.
 -  **Response Body**: JSON containing `"status"` ,`"message"`, `note_id`, `"spelling"`,`"spelling_suggestion"` fields. 
 
+**Endpoint**: `http://localhost:8080/v1/allnotes`
 
-**Endpoint**: `/v1/note`
+-   **Method**: GET
+-   **Purpose**: Retrieves a list of all notes for the authenticated user.
+-   **Request Headers**: Requires `"Authorization"` header with the authentication token.
+- **Response Body**: JSON containing `"status"` ,`"message"`, `notes` fields.  
+
+**Endpoint**: `http://localhost:8080/v1/note`
 
 -   **Method**: GET
 -   **Purpose**: Retrieves a specific note by its ID.
@@ -206,7 +209,7 @@ Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-b
 -   **Request Body**: JSON containing `"id"` field.
 - **Response Body**: JSON containing `"status"` ,`"message"`, `note` fields.  
 
-**Endpoint**: `/v1/note`
+**Endpoint**: `http://localhost:8080/v1/note`
 
 -   **Method**: PATCH
 -   **Purpose**: Updates an existing note with new title and content.
@@ -214,7 +217,7 @@ Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-b
 -  **Response Body**: JSON containing `"status"` ,`"message"`, `note_id`, `"spelling"`,`"spelling_suggestion"` fields. 
 
 
-**Endpoint**: `/v1/note`
+**Endpoint**: `http://localhost:8080/v1/note`
 
 -   **Method**: DELETE
 -   **Purpose**: Deletes a specific note by its ID.
