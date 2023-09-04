@@ -101,6 +101,7 @@ To build a NoteServer Docker image, run:
 docker build -t notes:1.0 /Users/user/go/src/noteserver
 ```
 Where `/Users/user/go/src/noteserver` is a path to the project
+
 Then retrieve PostgreSQL server address by running:
   ```
   docker inspect notes | grep IPAddress
