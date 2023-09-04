@@ -1,6 +1,6 @@
 # NoteServer
 
-**NoteServer** is a simple RESTful API server implemented in Go for managing notes. It provides endpoints for user authentication, note creation, reading, updating, and deletion, as well as handling multiple notes. Powered by PostgreSQL, it ensures secure data storage and retrieval. The server employs JWT for authentication and integrates the Yandex.Spelling API for accurate spellchecking, enhancing the overall note-taking experience.
+**NoteServer** is a simple RESTful API server implemented in Go for managing notes. It provides endpoints for user authentication, note creation, reading, updating, and deletion, as well as handling multiple notes. Powered by PostgreSQL, it ensures secure data storage and retrieval. The server employs JWT for authentication and integrates the [Yandex.Speller API](https://yandex.ru/dev/speller/#spellcheck) for accurate spellchecking, enhancing the overall note-taking experience.
 
 ## Project description
 
@@ -9,7 +9,6 @@ NoteServer uses the following libraries:
 -   [Mux](github.com/gorilla/mux): A powerful URL router and dispatcher for building RESTful web services.
 -   [PGXv4](github.com/jackc/pgx/v4): A PostgreSQL driver for Go applications.
 -   [Logrus](github.com/sirupsen/logrus): A structured logger for Go.
-- [Yandex.Speller](https://yandex.ru/dev/speller/#spellcheck): A spellchecking AI-tool API from Yandex.
 
 ### Project structure
 
