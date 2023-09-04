@@ -55,6 +55,11 @@ NoteServer uses the following libraries:
  - Docker 
  - PostgreSQL client (optional)
 
+ **Cloning a repository**
+```
+git clone https://github.com/no-to-mediocrity/Noteserver.git
+```
+
 ## Automatic deployment
 
 Just run `./deploy.sh` from the project root. This script verifies Docker and pgcli presence, sets up a PostgreSQL container with provided credentials, creates tables, and builds a NoteServer Docker image. It then connects NoteServer to the PostgreSQL database using its IP and parameters. The script keeps important parameters in separate variables for editing purposes. 
@@ -98,10 +103,6 @@ created_at TIMESTAMP DEFAULT NOW()
 
 ### Setting up the NoteServer
 
-**Cloning a repository**
-```
-git clone https://github.com/no-to-mediocrity/Noteserver.git
-```
 **Building a Docker image**  
 To build a NoteServer Docker image, run:
 ```
