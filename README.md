@@ -62,7 +62,7 @@ git clone https://github.com/no-to-mediocrity/Noteserver.git
 
 ## Automatic deployment
 
-Just run `./deploy.sh` from the project root. This script verifies Docker and pgcli presence, sets up a PostgreSQL container with provided credentials, creates tables, and builds a NoteServer Docker image. It then connects NoteServer to the PostgreSQL database using its IP and parameters. The script keeps important parameters in separate variables for editing purposes. 
+Just run `./deploy.sh` from the project root. This script sets up a PostgreSQL container with provided credentials, creates tables, and builds a NoteServer Docker image. It then connects NoteServer to the PostgreSQL database using its IP and parameters. The script keeps important parameters in separate variables for editing purposes. 
 
 ## Manual deployment
 
