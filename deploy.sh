@@ -13,11 +13,6 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
  
-if ! command -v pgcli &> /dev/null; then
-    echo "PostgreSQL client (pgcli) is not installed. Please install it before running this script."
-    exit 1
-fi
- 
 # Get the PostgreSQL image
 docker pull postgres
  
