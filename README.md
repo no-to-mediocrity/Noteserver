@@ -126,6 +126,7 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ## Flags
 ### --port
 **Default**: 8080
+
 **Description**: Specifies the port number on which the server will listen for incoming requests.
 
 **Example usage:**
@@ -136,6 +137,7 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ### --jwt-secret
 
 **Default**: your-secret-key
+
 **Description**: Sets the secret key used for generating and validating JSON Web Tokens (JWTs) for authentication and authorization.
 
 **Example usage:**
@@ -145,6 +147,7 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ### --sql-server
 
 **Default**: postgresql://postgres:mysecretpassword@localhost:5432/postgres
+
 **Description**: Defines the connection parameters for the SQL server. Use the appropriate URL format for your SQL server.
 
 **Example usage:**
@@ -153,6 +156,7 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 ```
 ### --timeout
 **Default**: 5
+
 **Description**: Specifies the timeout duration in seconds for Yandex API requests made by the application.
 
 **Example usage:**
