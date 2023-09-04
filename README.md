@@ -160,21 +160,21 @@ where `mysecretpassword` is the the password of your PostgreSQL Container and `1
 
 Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-bd18-4410-87b1-195155e51067?access_key=PMAT-01H9EC868GRK3SBDP58Z3782H3) to test the API . 
 
-**Endpoint**: `http://localhost:8080/v1/register`
+**Endpoint**: `/v1/register`
 
 -   **Method**: POST
 -   **Purpose**: Allows users to register with a username and password.
 -   **Request Body**: JSON containing `"username"` and `"password"` fields.
 -  **Response Body**: JSON message.
 
-**Endpoint**: `http://localhost:8080/v1/login`
+**Endpoint**: `/v1/login`
 
 -   **Method**: POST
 -   **Purpose**: Enables user login using username and password.
 -   **Request Body**: JSON containing `"username"` and `"password"` fields.
 -   **Response Body**: JSON with an authentication token.
 
-**Endpoint**: `http://localhost:8080/v1/deleteuser`
+**Endpoint**: `/v1/deleteuser`
 
 -   **Method**: DELETE
 -   **Purpose**: Deletes a user account.
@@ -182,7 +182,15 @@ Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-b
 -   **Response Body**: JSON message.
 
 
-**Endpoint**: `http://localhost:8080/v1/note`
+**Endpoint**: `/v1/allnotes`
+
+-   **Method**: GET
+-   **Purpose**: Retrieves a list of all notes for the authenticated user.
+-   **Request Headers**: Requires `"Authorization"` header with the authentication token.
+- **Response Body**: JSON containing `"status"` ,`"message"`, `notes` fields.  
+
+
+**Endpoint**: `/v1/note`
 
 -   **Method**: POST
 -   **Purpose**: Creates a new note with a title and content.
@@ -190,14 +198,8 @@ Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-b
 -   **Request Body**: JSON containing `"title"` and `"content"` fields.
 -  **Response Body**: JSON containing `"status"` ,`"message"`, `note_id`, `"spelling"`,`"spelling_suggestion"` fields. 
 
-**Endpoint**: `http://localhost:8080/v1/allnotes`
 
--   **Method**: GET
--   **Purpose**: Retrieves a list of all notes for the authenticated user.
--   **Request Headers**: Requires `"Authorization"` header with the authentication token.
-- **Response Body**: JSON containing `"status"` ,`"message"`, `notes` fields.  
-
-**Endpoint**: `http://localhost:8080/v1/note`
+**Endpoint**: `/v1/note`
 
 -   **Method**: GET
 -   **Purpose**: Retrieves a specific note by its ID.
@@ -205,7 +207,7 @@ Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-b
 -   **Request Body**: JSON containing `"id"` field.
 - **Response Body**: JSON containing `"status"` ,`"message"`, `note` fields.  
 
-**Endpoint**: `http://localhost:8080/v1/note`
+**Endpoint**: `/v1/note`
 
 -   **Method**: PATCH
 -   **Purpose**: Updates an existing note with new title and content.
@@ -213,7 +215,7 @@ Use [Postman Collection](https://api.postman.com/collections/29498342-36cb3529-b
 -  **Response Body**: JSON containing `"status"` ,`"message"`, `note_id`, `"spelling"`,`"spelling_suggestion"` fields. 
 
 
-**Endpoint**: `http://localhost:8080/v1/note`
+**Endpoint**: `/v1/note`
 
 -   **Method**: DELETE
 -   **Purpose**: Deletes a specific note by its ID.
